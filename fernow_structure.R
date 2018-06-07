@@ -52,7 +52,7 @@ fern.fit <- randomForest(as.factor(watershedID) ~  porosity + max.can.ht + mode.
 
 
 # View the forest results.
-print(fern.fit) 
+``
 
 # Importance of each predictor.
 print(importance(fern.fit)) 
@@ -62,7 +62,12 @@ varImpPlot(fern.fit)
 # mean.height + mean.max.ht + 
 fern %>%
   group_by(watershedID) %>%
-  summarize_all(funs(mean)) -> fern.means
+  summarise(mean(porosity),
+            mean(max.can.ht),
+            mean(mode.2),
+            mean(height.2))
+            
+            
 
 fern.means <-data.frame(fern.means)
 ##################

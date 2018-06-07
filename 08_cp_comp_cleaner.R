@@ -1,16 +1,13 @@
 # Comparing Colonial Point from 2014 to 2017.
-require(maptools)
-require(rgdal)
-require(sf)
-
-cp.gps <- readOGR("./spatial/LTREB_Plot_Centers_6_27_2014_MichGeoRef.shp")
-cp.gps2 <- readOGR("./spatial/LE_Plots_Corrected_2016.shp")
-
-str(cp.gps2)
-
-
+# refined script
 #### Importing 
 cp <- read.csv("./data/cp_comparison_14_17_pcl.CSV")
+
+require(plyr)
+require(dplyr)
+require(tidyverse)
+require(randomForest)
+
 
 # Total site
 cp %>% group_by(year) %>%
@@ -48,17 +45,15 @@ cp.stats <- data.frame(cp.stats)
 
 #### CLASSIFCATION
 
-require(randomForest)
-
 # for reproducibility, best to set a seed
 set.seed(666)
 
 # I always do a comparison at first of making a kitchen sink model, i.e. one that contains as much info as the model can take. You can't have more predictors than rows though. So that can be a problem sometimes. 
 cp.kitchen.sink <- randomForest(as.factor(year) ~  mean.height +	height.2 + mean.height.var +	mean.height.rms +	mode.el +	max.el + mode.2 + max.can.ht	+ mean.max.ht +	mean.vai +	mean.peak.vai +	deep.gap.fraction + porosity	+	rugosity +
-                         top.rugosity + sky.fraction	+ rumple +	clumping.index +	enl,
-                         data = cp,
-                         importance = TRUE,
-                         ntree = 2000)
+                                  top.rugosity + sky.fraction	+ rumple +	clumping.index +	enl,
+                                data = cp,
+                                importance = TRUE,
+                                ntree = 2000)
 
 
 # View the forest results.

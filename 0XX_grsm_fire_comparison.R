@@ -65,3 +65,11 @@ varImpPlot(grsm.fit)
 #GRSM_64 - LOW
 #GRSM_65 - LOW
 #GRSM_66 - LOW
+
+# looking at what changes
+grsm %>% group_by(year) %>%
+  summarise(mean(max.el),
+            mean(mean.vai),
+            mean(mean.max.ht),
+            mean(mean.peak.vai)
+  )
