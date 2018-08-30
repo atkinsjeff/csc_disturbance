@@ -33,6 +33,8 @@ fern.og <- fern
 #removing watershed 4
 fern %>% filter(!watershedID == "W4") -> x
 
+x$watershedID2 <- ifelse(x$watershedID == "W3", "Treatment", "Control")
+
 x$watershedID <- factor(x$watershedID)
 
 set.seed(400)
@@ -48,7 +50,8 @@ fern.ks <- randomForest(as.factor(watershedID) ~ mean.height +	height.2 + mean.h
 fern.fit <- randomForest(as.factor(watershedID) ~  porosity + max.can.ht + mode.2 + height.2,
                       data = x,
                       importance = TRUE,
-                      ntree = 2000)
+                      ntree = 2000,
+                      set.seed(666))
 
 
 # View the forest results.
@@ -58,6 +61,63 @@ fern.fit <- randomForest(as.factor(watershedID) ~  porosity + max.can.ht + mode.
 print(importance(fern.fit)) 
 
 varImpPlot(fern.fit)
+
+#plots for manuscript
+
+x11(width = 4, height = 4)
+p.fernow.pc<- ggplot(x, aes(x = watershedID2, y = porosity, fill = watershedID2))+
+  geom_boxplot()+
+  theme_jeff()+
+  xlab("")+
+  ylab(expression(P[c]))+
+  guides(fill=FALSE)
+
+ggsave(p.fernow.pc, filename = "./plots/fern_pc_change.tiff", width = 3, height = 3, units = "in", dpi = 600, device='tiff')
+
+p.fernow.max.can<- ggplot(x, aes(x = watershedID2, y = max.can.ht, fill = watershedID2))+
+  geom_boxplot()+
+  theme_jeff()+
+  xlab("")+
+  ylab(expression(H[max]))+
+  guides(fill=FALSE)
+
+ggsave(p.fernow.max.can, filename = "./plots/fern_max_ht_change.tiff", width = 3, height = 3, units = "in", dpi = 600, device='tiff')
+x11()
+p.fernow.mode2<- ggplot(x, aes(x = watershedID2, y = mode.2, fill = watershedID2))+
+  geom_boxplot()+
+  theme_jeff()+
+  xlab("")+
+  ylab(expression(sigma*VAI[max]))+
+  guides(fill=FALSE)
+
+ggsave(p.fernow.mode2, filename = "./plots/fern_mode2_change.tiff", width = 3, height = 3, units = "in", dpi = 600, device='tiff')
+
+x11()
+p.fernow.h2<- ggplot(x, aes(x = watershedID2, y = height.2, fill = watershedID2))+
+  geom_boxplot()+
+  theme_jeff()+
+  xlab("")+
+  ylab(expression(sigma*H))+
+  guides(fill=FALSE)
+
+ggsave(p.fernow.h2, filename = "./plots/fern_height2_change.tiff", width = 3, height = 3, units = "in", dpi = 600, device='tiff')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # mean.height + mean.max.ht + 
 fern %>%
@@ -80,10 +140,12 @@ m <- cor(fern2, method = "pearson")
 
 require(corrplot)
 
+x11()
 corrplot(m, type = "upper", order = "hclust", 
          tl.col = "black", tl.srt = 45)
 
 #####
+##### here are my transparent plots
 gg <- ggplot(fern, aes(x = watershedID, y = porosity, fill = watershedID))+ 
   geom_boxplot(color = "white")+
   scale_color_manual(values=c("#FF0000", "#00A08A", "#F2AD00"))+
