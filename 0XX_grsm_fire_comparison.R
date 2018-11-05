@@ -9,6 +9,7 @@ require(dplyr)
 require(ggplot2)
 require(tidyverse)
 require(randomForest)
+require(ggridges)
 
 # import grsm data
 grsm <- read.csv("./data/grsm_comparison_1113.csv")
@@ -46,7 +47,7 @@ print(importance(grsm.ks.fit))
 varImpPlot(grsm.ks.fit)
 
 # refined model
-grsm.fit <- randomForest(as.factor(year, transect) ~  max.el + mean.vai + mean.max.ht + mean.peak.vai,
+grsm.fit <- randomForest(as.factor(year) ~  max.el + mean.vai + mean.max.ht + mean.peak.vai,
                             data = grsm,
                             importance = TRUE,
                             ntree = 2000)
@@ -68,7 +69,7 @@ varImpPlot(grsm.fit)
 
 # looking at what changes
 grsm %>% group_by(year) %>%
-  summarise(mean(max.el),
+  summarise(
             mean(mean.vai),
             mean(mean.max.ht),
             mean(mean.peak.vai)

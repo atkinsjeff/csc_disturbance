@@ -57,6 +57,7 @@ fern.fit <- randomForest(as.factor(watershedID) ~  porosity + max.can.ht + mode.
 # View the forest results.
 ``
 
+
 # Importance of each predictor.
 print(importance(fern.fit)) 
 
@@ -87,7 +88,7 @@ p.fernow.mode2<- ggplot(x, aes(x = watershedID2, y = mode.2, fill = watershedID2
   geom_boxplot()+
   theme_jeff()+
   xlab("")+
-  ylab(expression(sigma*VAI[max]))+
+  ylab(expression(sigma*Z[max]*" (m)" ))+
   guides(fill=FALSE)
 
 ggsave(p.fernow.mode2, filename = "./plots/fern_mode2_change.tiff", width = 3, height = 3, units = "in", dpi = 600, device='tiff')

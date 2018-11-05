@@ -2,11 +2,14 @@
 require(maptools)
 require(rgdal)
 require(sf)
+require(plyr)
+require(dplyr)
+require(tidyverse)
 
-cp.gps <- readOGR("./spatial/LTREB_Plot_Centers_6_27_2014_MichGeoRef.shp")
-cp.gps2 <- readOGR("./spatial/LE_Plots_Corrected_2016.shp")
-
-str(cp.gps2)
+# cp.gps <- readOGR("./spatial/LTREB_Plot_Centers_6_27_2014_MichGeoRef.shp")
+# cp.gps2 <- readOGR("./spatial/LE_Plots_Corrected_2016.shp")
+# 
+# str(cp.gps2)
 
 
 #### Importing 
@@ -72,7 +75,7 @@ varImpPlot(cp.kitchen.sink)
 
 
 ### more tuned model
-cp.fit <- randomForest(as.factor(year) ~ porosity + mean.peak.vai + max.el,
+cp.fit <- randomForest(as.factor(year) ~ porosity + max.el,
                        data = cp,
                        importance = TRUE,
                        ntree = 2000)
@@ -89,3 +92,31 @@ cp %>% group_by(year) %>%
             mean(max.el),
             mean(mean.peak.vai),
             mean(porosity))
+
+x11(width = 4, height = 4)
+p.cp.pc <- ggplot(cp, aes(x = as.factor(year), y = porosity, fill = as.factor(year)))+
+  geom_boxplot()+
+  theme_jeff()+
+  xlab("")+
+  ylab(expression(P[C]))+
+  guides(fill=FALSE)
+
+ggsave(p.cp.pc, filename = "./plots/cp_pc_change.tiff", width = 3, height = 3, units = "in", dpi = 600, device='tiff')
+
+p.cp.vai.peak <- ggplot(cp, aes(x = as.factor(year), y = mean.peak.vai, fill = as.factor(year)))+
+  geom_boxplot()+
+  theme_jeff()+
+  xlab("")+
+  ylab(expression(VAI[peak]))+
+  guides(fill=FALSE)
+
+ggsave(p.cp.vai.peak, filename = "./plots/cp_peak_vai_change.tiff", width = 3, height = 3, units = "in", dpi = 600, device='tiff')
+
+p.cp.max.el <- ggplot(cp, aes(x = as.factor(year), y = max.el, fill = as.factor(year)))+
+  geom_boxplot()+
+  theme_jeff()+
+  xlab("")+
+  ylab(expression(VAI[max]))+
+  guides(fill=FALSE)
+
+ggsave(p.cp.max.el, filename = "./plots/cp_maxel_change.tiff", width = 3, height = 3, units = "in", dpi = 600, device='tiff')
