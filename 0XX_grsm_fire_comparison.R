@@ -189,3 +189,20 @@ theme_jeff <- function () { theme_bw()+
         #Centering subtitle                  
         plot.subtitle = element_text(hjust = 0.5))     
 }
+
+### VAI plot
+
+grsm %>%
+  select(plot, transect, year, mean.vai) -> grsm.vai
+
+# make long
+grsm.vai %>% 
+  spread(year, mean.vai) -> grsm.vai.long
+  
+ggplot(grsm.vai.long, aes(x = `2017`, y = `2016`))+
+  geom_point(size = 2)+
+  geom_abline(slope = 1)+
+  geom_vline(xintercept = 5)+
+  theme_jeff()+
+  ylim(c(5,8))+
+  xlim(c(5,8))
