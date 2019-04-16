@@ -43,7 +43,8 @@ x11()
 ggplot(hf, aes(x = as.factor(row * 20), y = rugosity))+
   geom_boxplot()+
   theme_bw()+
-  xlab("Distance (m)")
+  xlab("Distance (m)")+
+  ylab("Canopy Rugosity (m)")
 # Centroid Plot against 1st 2 discriminant functions
 library(fpc)
 plotcluster(hf[, 8:34], fit$cluster)

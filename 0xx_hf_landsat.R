@@ -4,6 +4,7 @@ library(rgdal)
 library(rgeos)
 ## Error in library(rgeos): there is no package called 'rgeos'
 library(RColorBrewer)
+library(viridis)
 # turn off factors
 options(stringsAsFactors = FALSE)
 
@@ -106,9 +107,20 @@ x11()
 levelplot(hf.ndvi.16, at=breaks, col.regions=cols, main = "2016")
 
 
+
 rasterOptions(tolerance = 0.5)
 hf.change <- hf.ndvi.10 - hf.ndvi.16
 
+#change plot
+change.breaks <- seq(-0.1, 0.1, by=0.01)
+cols <- colorRampPalette(c("#2b1d0e", "white", "dark green"))(length(breaks)-1)
+
+
+x11()
+#levelplot(hf.change, at = change.breaks, col.regions = rev(viridis(32)), main = "NDVI Change from 2010 - 2016")
+levelplot(hf.change, at = change.breaks, col.regions = cols, main = "NDVI Change from 2010 - 2016")
+
+plot(hf.change)
 mergedraster <- raster::merge(hf.ndvi.10, hf.ndvi.16, tolerance = 0.5)
 
 plot(mergedraster)
@@ -121,7 +133,7 @@ dim(ndvi.10.df)
 dim(ndvi.16.df)
 
 ndvi.change <- cbind(ndvi.10.df, ndvi.16.df)
-write.csv(ndvi.change, "ndvi_change.csv")
+#write.csv(ndvi.change, "ndvi_change.csv")
 
 
 ##### look at whole stack

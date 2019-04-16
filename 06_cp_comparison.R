@@ -11,6 +11,30 @@ require(tidyverse)
 # 
 # str(cp.gps2)
 
+###### ggplot2 theme
+theme_jeff <- function () { theme_bw()+                    
+    #Setting all text to size 20 and colour to purple/pink                                  
+    theme(text=element_text(size=20, colour="black"),    
+          #Changing the colour of the axis text to pink  
+          axis.text = element_text(colour="black"),
+          #..and the axis ticks..        
+          axis.ticks = element_blank(),  
+          #..and the panel border to purple/pink       
+          panel.border = element_rect(colour="black"),  
+          #Changing the colour of the major..
+          panel.grid.major = element_blank(), 
+          #..and minor grid lines to light pink     
+          panel.grid.minor = element_blank(),    
+          #Setting legend title to size 16..
+          #legend.title = element_text(size=16),   
+          #..and the legend text to size 14                
+          legend.text = element_text(size=14),  
+          #Centering plot title text and making it bold                     
+          plot.title = element_text(hjust = 0.5, face="bold"),  
+          #Centering subtitle                  
+          plot.subtitle = element_text(hjust = 0.5))     
+}
+
 
 #### Importing 
 cp <- read.csv("./data/cp_comparison_14_17_pcl.CSV")
@@ -75,7 +99,7 @@ varImpPlot(cp.kitchen.sink)
 
 
 ### more tuned model
-cp.fit <- randomForest(as.factor(year) ~ porosity + max.el,
+cp.fit <- randomForest(as.factor(year) ~ porosity + max.el ,
                        data = cp,
                        importance = TRUE,
                        ntree = 2000)
@@ -120,3 +144,21 @@ p.cp.max.el <- ggplot(cp, aes(x = as.factor(year), y = max.el, fill = as.factor(
   guides(fill=FALSE)
 
 ggsave(p.cp.max.el, filename = "./plots/cp_maxel_change.tiff", width = 3, height = 3, units = "in", dpi = 600, device='tiff')
+
+
+#### loking at data
+cp %>%
+  dplyr::select(plot, year, mean.peak.vai, max.el, porosity) -> cp.2
+
+cp.2 %>%
+  group_by(plot, year) %>%
+  summarize(mean(max.el)) -> cp.3
+
+cp.4 <- spread(cp.3, year, `mean(max.el)`)
+
+ggplot(cp.4, aes(x = `2014`, y = `2017`))+
+  geom_point(size = 2)+
+  theme_jeff()
+ 
+
+

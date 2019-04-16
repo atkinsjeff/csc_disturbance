@@ -47,6 +47,7 @@ print(importance(grsm.ks.fit))
 varImpPlot(grsm.ks.fit)
 
 # refined model
+set.seed(420)
 grsm.fit <- randomForest(as.factor(year) ~  max.el + mean.vai + mean.max.ht + mean.peak.vai,
                             data = grsm,
                             importance = TRUE,
