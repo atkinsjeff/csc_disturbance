@@ -1,0 +1,2 @@
+Warning 6: Normalized/laundered field name: 'description' to 'descriptio'
+Warning 1: Field 'NAME' already exists. Renaming it as 'NAME2'
