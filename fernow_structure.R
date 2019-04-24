@@ -217,3 +217,6 @@ ii <- ggplot(fern, aes(x = watershedID, y = rumple, fill = watershedID))+
 
 ggsave("fernow_rump.png", ii, width = 6, height = 4, units = "in", bg = "transparent")
 
+### looking at differences
+fern$plot[which.min(fern$porosity)]
+fern$plot[which.max(fern$porosity)]

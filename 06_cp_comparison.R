@@ -51,7 +51,8 @@ cp %>% group_by(year) %>%
             mean(sky.fraction),
             mean(deep.gap.fraction),
             mean(rumple),
-            mean(clumping.index)
+            mean(clumping.index),
+            mean(mode.el)
   ) -> cp.stats
 
 cp.stats <- data.frame(cp.stats)

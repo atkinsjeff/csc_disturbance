@@ -158,3 +158,8 @@ p.hf.max.ht <- ggplot(hfx, aes(x = as.factor(class), y = max.can.ht, fill = as.f
   guides(fill=FALSE)
 
 ggsave(p.hf.max.ht, filename = "./plots/hf_maxht_change.tiff", width = 3, height = 3, units = "in", dpi = 600, device='tiff')
+
+##### looking at rows
+hf(which.min[hf$rugosity])
+hf$plot[which.min(hf$rugosity)]
+hf$plot[which.max(hf$rugosity)]
