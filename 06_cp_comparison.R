@@ -162,4 +162,13 @@ ggplot(cp.4, aes(x = `2014`, y = `2017`))+
   theme_jeff()
  
 
+# mean.height + mean.max.ht + 
+cp %>%
+  group_by(year) %>%
+  summarise(mean(mean.vai))
+
+
+
+# One Way Anova (Completely Randomized Design)
+fit <- aov(mean.vai ~ year, data = cp)
 

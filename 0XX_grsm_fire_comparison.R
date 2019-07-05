@@ -75,7 +75,9 @@ grsm %>% group_by(year) %>%
             mean(mean.max.ht),
             mean(mean.peak.vai)
   )
-  
+#test  
+# One Way Anova (Completely Randomized Design)
+fit <- aov(mean.vai ~ year, data = grsm)
 
 #### rigde lines graph
 require(ggplot2)

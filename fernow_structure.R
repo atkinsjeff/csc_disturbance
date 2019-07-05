@@ -126,11 +126,17 @@ fern %>%
   summarise(mean(porosity),
             mean(max.can.ht),
             mean(mode.2),
-            mean(height.2))
-            
+            mean(height.2),
+            mean(mean.vai)) -> fern.means
+       
+   
             
 
 fern.means <-data.frame(fern.means)
+
+# One Way Anova (Completely Randomized Design)
+fit <- aov(mean.vai ~ watershedID, data = fern)
+
 ##################
 # mean.height + mode.2 + height.2 + porosity + rugosity + rumple + max.el + mean.height + max.can.ht + mean.max.ht + top.rugosity +  mode.el
 # covariance matrix

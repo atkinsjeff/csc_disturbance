@@ -61,6 +61,15 @@ umbs.12 %>%
             mean(mode.2),
             mean(mean.vai)) -> umbs.12.means
 
+umbs.12 %>%
+  group_by(site) %>%
+  summarise(mean(mean.vai))
+
+
+# One Way Anova (Completely Randomized Design)
+fit <- aov(mean.vai ~ site, data = umbs.12)
+
+
 data.frame(umbs.12.means)
 
 umbs %>% filter(year == "2016") -> umbs.16
@@ -95,6 +104,14 @@ umbs.16 %>%
   summarise(mean(rugosity),
             mean(top.rugosity),
             sd(porosity))
+
+umbs.16 %>%
+  group_by(site) %>%
+  summarise(mean(mean.vai))
+
+
+# One Way Anova (Completely Randomized Design)
+fit <- aov(mean.vai ~ site, data = umbs.16)
 
 # plots
 #2016

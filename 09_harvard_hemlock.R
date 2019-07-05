@@ -27,6 +27,16 @@ hf %>% group_by(fit.cluster) %>%
 # append cluster assignment
 hf <- data.frame(hf, fit$cluster)
 
+#################
+hf %>%
+  group_by(class) %>%
+  summarise(mean(mean.vai))
+  
+
+# One Way Anova (Completely Randomized Design)
+fit <- aov(mean.vai ~ class, data = hf)
+
+
 
 #### playing with rugosity
 x11()
